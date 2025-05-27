@@ -1,0 +1,19 @@
+# dependencies
+node_modules/
+
+# build
+.next/
+dist/
+
+# env
+.env
+.env.local
+
+# system
+.DS_Store
+*.log
+
+# yarn
+.yarn/
+.yarnrc.yml
+.yarn/install-state.gz
