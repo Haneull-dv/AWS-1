@@ -1,7 +1,7 @@
 services:
   postgres:
     image: postgres:15
-    container_name: hc_postgres
+    container_name: hc_postgres_alt
     restart: always
     environment:
       POSTGRES_USER: hc_user
