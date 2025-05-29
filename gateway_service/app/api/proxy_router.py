@@ -1,0 +1,3 @@
+GATEWAY_SERVICE_URL=http://gateway:8080
+DSDGEN_SERVICE_URL=http://dsdgen:8085
+DSDCHECK_SERVICE_URL=http://dsdcheck:8086
