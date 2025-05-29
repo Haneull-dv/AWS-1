@@ -5,14 +5,6 @@ import { useState } from 'react';
 
 const NAV_ITEMS = [
   {
-    label: 'About',
-    children: [
-      { label: 'ConanAI 이야기', href: '/about/intro' },
-      { label: '도전의 역사', href: '/about/history' },
-      { label: '보도자료', href: '/about/press' },
-    ],
-  },
-  {
     label: 'Digital Solutions',
     children: [
       { label: 'See all digital solutions', href: '/solutions' },
@@ -25,12 +17,6 @@ const NAV_ITEMS = [
     children: [
       { label: '재무공시 DSD 변환', href: '/guide/finance-dsd' },
       { label: 'ESG공시 DSD 변환', href: '/guide/esg-dsd' },
-    ],
-  },
-  {
-    label: 'IR',
-    children: [
-      { label: 'IR 활동', href: '/ir/activity' },
     ],
   },
 ];

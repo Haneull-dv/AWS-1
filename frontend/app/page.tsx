@@ -3,20 +3,15 @@
 
 import { useRouter } from 'next/navigation';
 import { useState, useRef } from 'react';
-import Tabs from './components/Tabs';
 import Link from 'next/link';
-import ChatbotLauncher from './components/ChatbotLauncher';
 
 const SLIDES = [
-  { label: '업계 주가', href: '/features/stock' },
   { label: '재무 DSD', href: '/dashboard/table/separate-balancesheet' },
-  { label: '증권리포트 분석', href: '/features/report-analysis' },
   { label: 'ESG DSD', href: '/features/esg-dsd' },
 ];
 
 export default function Home() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState('financial');
   const sliderRef = useRef<HTMLDivElement>(null);
 
   const handleButtonClick = (path: string) => {
@@ -32,10 +27,10 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-white flex flex-col items-center justify-start">
       <div className="mt-20 mb-4 text-4xl md:text-5xl font-extrabold text-center">
-        오늘은 어떤 업무를 <span className="text-[#5D5FEF]">자동화</span>할까요?
+        오늘은 어떤 <span className="text-[#5D5FEF]">DSD</span>를 생성할까요?
       </div>
       <div className="mb-10 text-lg md:text-2xl text-center text-gray-500 font-medium">
-        ConanAI를 사용하면 IR팀·재무팀 업무가 쉬워집니다.
+        ConanAI DSD Generator를 사용하면 공시 데이터 표준화가 쉬워집니다.
       </div>
       <div className="relative w-full max-w-4xl px-4">
         <button
@@ -69,7 +64,6 @@ export default function Home() {
           <svg width="24" height="24" fill="none" stroke="#5D5FEF" strokeWidth="2" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
         </button>
       </div>
-      <ChatbotLauncher />
     </div>
   );
 }
