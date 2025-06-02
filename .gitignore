@@ -72,3 +72,5 @@ Thumbs.db
 dart_documents/
 dart_documents/extracted/
 
+node_modules/
+

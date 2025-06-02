@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dsdgen
+  namespace: dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dsdgen
+  template:
+    metadata:
+      labels:
+        app: dsdgen
+    spec:
+      containers:
+      - name: dsdgen
+        image: dsdgen:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8085
+        env:
+        - name: DART_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: app-secret
+              key: DART_API_KEY
+        volumeMounts:
+        - name: dart-documents
+          mountPath: /app/app/dart_documents
+      volumes:
+      - name: dart-documents
+        hostPath:
+          path: /data/dart_documents
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: dsdgen-service
+  namespace: dev
+spec:
+  selector:
+    app: dsdgen
+  ports:
+  - port: 8085
+    targetPort: 8085
+  type: ClusterIP 

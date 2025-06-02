@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dsdcheck
+  namespace: dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dsdcheck
+  template:
+    metadata:
+      labels:
+        app: dsdcheck
+    spec:
+      containers:
+      - name: dsdcheck
+        image: dsdcheck:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8086
+        env:
+        - name: PORT
+          valueFrom:
+            configMapKeyRef:
+              name: app-config
+              key: PORT
+        - name: DART_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: app-secret
+              key: DART_API_KEY
+        volumeMounts:
+        - name: resources
+          mountPath: /app/app/resources
+      volumes:
+      - name: resources
+        hostPath:
+          path: /data/dsdcheck/resources
+          type: DirectoryOrCreate
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: dsdcheck-service
+  namespace: dev
+spec:
+  selector:
+    app: dsdcheck
+  ports:
+  - port: 8086
+    targetPort: 8086
+  type: ClusterIP 
