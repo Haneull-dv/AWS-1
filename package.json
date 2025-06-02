@@ -1,0 +1,16 @@
+{
+  "name": "sky-c-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "frontend",
+    "dsdcheck_service",
+    "dsdgen_service",
+    "gateway_service"
+  ],
+  "scripts": {
+    "frontend:dev": "npm run dev --workspace=frontend",
+    "frontend:build": "npm run build --workspace=frontend",
+    "frontend:start": "npm run start --workspace=frontend"
+  }
+} 
