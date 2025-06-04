@@ -9,9 +9,17 @@ const withPWA = require('next-pwa')({
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  output: 'export',
+  output: 'standalone',
   images: {
     unoptimized: true,
+  },
+  async rewrites() {
+    return [
+      {
+        source: '/api/:path*',
+        destination: 'http://gateway-service.dev.svc.cluster.local:8080/api/:path*',
+      },
+    ]
   },
   webpack: (config) => {
     config.resolve.alias = {

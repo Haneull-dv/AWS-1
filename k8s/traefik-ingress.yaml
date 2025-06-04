@@ -1,0 +1,43 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: frontend-ingressroute
+  namespace: dev
+spec:
+  entryPoints:
+    - web
+  routes:
+  - match: Host(`localhost`) && PathPrefix(`/`)
+    kind: Rule
+    services:
+    - name: frontend-service
+      port: 3000
+    priority: 1
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: gateway-ingressroute
+  namespace: dev
+spec:
+  entryPoints:
+    - web
+  routes:
+  - match: Host(`localhost`) && PathPrefix(`/api`)
+    kind: Rule
+    services:
+    - name: gateway-service
+      port: 8080
+    priority: 10
+  - match: Host(`localhost`) && PathPrefix(`/docs`)
+    kind: Rule
+    services:
+    - name: gateway-service
+      port: 8080
+    priority: 10
+  - match: Host(`localhost`) && PathPrefix(`/openapi.json`)
+    kind: Rule
+    services:
+    - name: gateway-service
+      port: 8080
+    priority: 10 

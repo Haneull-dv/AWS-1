@@ -15,8 +15,8 @@ spec:
     spec:
       containers:
       - name: dsdgen
-        image: dsdgen:latest
-        imagePullPolicy: IfNotPresent
+        image: haneull/dsdgen_service:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 8085
         env:

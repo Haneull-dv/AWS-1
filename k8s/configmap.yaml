@@ -6,7 +6,10 @@ metadata:
 data:
   POSTGRES_DB: hc_db
   POSTGRES_USER: hc_user
+  POSTGRES_HOST: postgres-service
+  POSTGRES_PORT: "5432"
+  DATABASE_URL: "postgresql://hc_user@postgres-service:5432/hc_db"
   DSDGEN_SERVICE_URL: "http://dsdgen-service:8085"
   DSDCHECK_SERVICE_URL: "http://dsdcheck-service:8086"
-  GATEWAY_SERVICE_URL: "http://gateway-service:8000"
+  GATEWAY_SERVICE_URL: "http://gateway-service:8080"
   PORT: "8086" 

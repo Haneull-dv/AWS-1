@@ -107,17 +107,20 @@ async def proxy_post(
     service: ServiceType, 
     path: str,
     request: Request,
-    file: Optional[UploadFile] = None,
+    file: Optional[UploadFile] = File(None),
     sheet_names: Optional[List[str]] = Query(None, alias="sheet_name")
 ):
     try:
         # 로깅
         logger.info(f"🌈 POST 요청 받음: 서비스={service}, 경로={path}")
+        logger.info(f"Content-Type: {request.headers.get('content-type', 'None')}")
         if file:
             logger.info(f"파일명: {file.filename}, 시트 이름: {sheet_names if sheet_names else '없음'}")
 
         # 서비스 팩토리 생성
         factory = ServiceProxyFactory(service_type=service)
+        
+        actual_path = path
         
         # 요청 파라미터 초기화
         files = None
@@ -164,9 +167,10 @@ async def proxy_post(
                 logger.warning(f"요청 본문 읽기 실패: {str(e)}")
                 
         # 서비스에 요청 전달
+        logger.info(f"🔄 {service} 서비스로 요청 전달: {actual_path}")
         response = await factory.request(
             method="POST",
-            path=path,
+            path=actual_path,
             headers=request.headers.raw,
             body=body,
             files=files,

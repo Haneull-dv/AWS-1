@@ -94,8 +94,8 @@ export default function SeparateBalanceSheetPage() {
     setDsdError(null);
     const formData = new FormData();
     formData.append('file', dsdFile);
-    // sheetName이 비어있으면 쿼리스트링에서 sheet_name 파라미터를 빼고 요청
-    let url = 'https://railwaydsdgen-production.up.railway.app/dsdgen/upload';
+    // 상대경로 사용으로 환경에 따라 자동 처리
+    let url = '/api/dsdgen/upload';
     if (sheetName) {
       url += `?sheet_name=${sheetName}`;
     }
@@ -104,6 +104,10 @@ export default function SeparateBalanceSheetPage() {
         method: 'POST',
         body: formData,
       });
+
+      const responseText = await response.text();
+      console.log('🎀🎀서버 응답:', responseText);
+
       if (!response.ok) {
         throw new Error(`API 요청 실패: ${response.status}`);
       }
