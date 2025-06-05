@@ -11,6 +11,7 @@ from contextlib import asynccontextmanager
 from typing import List, Optional, Dict, Any
 from app.domain.model.service_type import ServiceType
 from app.domain.model.service_factory import ServiceProxyFactory
+from urllib.parse import urljoin
 
 # ✅ 로깅 설정
 logging.basicConfig(
@@ -111,22 +112,23 @@ async def proxy_post(
     sheet_names: Optional[List[str]] = Query(None, alias="sheet_name")
 ):
     try:
+        # 🔧 변수 초기화 (조건문과 상관없이 맨 위에서 선언)
+        body = None
+        files = None
+        params = None
+        data = None
+        
         # 로깅
         logger.info(f"🌈 POST 요청 받음: 서비스={service}, 경로={path}")
-        logger.info(f"Content-Type: {request.headers.get('content-type', 'None')}")
+        logger.info(f"🎆Content-Type: {request.headers.get('content-type', 'None')}")
         if file:
-            logger.info(f"파일명: {file.filename}, 시트 이름: {sheet_names if sheet_names else '없음'}")
+            logger.info(f"✨파일명: {file.filename}, 시트 이름: {sheet_names if sheet_names else '없음'}")
 
         # 서비스 팩토리 생성
         factory = ServiceProxyFactory(service_type=service)
         
         actual_path = path
-        
-        # 요청 파라미터 초기화
-        files = None
-        params = None
-        body = None
-        data = None
+
         
         # 파일이 필요한 서비스 처리
         if service in FILE_REQUIRED_SERVICES:
@@ -165,9 +167,11 @@ async def proxy_post(
                     logger.info("요청 본문이 비어 있습니다.")
             except Exception as e:
                 logger.warning(f"요청 본문 읽기 실패: {str(e)}")
+                body = None
                 
         # 서비스에 요청 전달
         logger.info(f"🔄 {service} 서비스로 요청 전달: {actual_path}")
+        logger.info(f"🎃최종 요청 URL:{actual_path}")
         response = await factory.request(
             method="POST",
             path=actual_path,
