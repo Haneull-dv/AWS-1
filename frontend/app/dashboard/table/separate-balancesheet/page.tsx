@@ -95,7 +95,7 @@ export default function SeparateBalanceSheetPage() {
     const formData = new FormData();
     formData.append('file', dsdFile);
     // 상대경로 사용으로 환경에 따라 자동 처리
-    let url = '/api/dsdgen/upload';
+    let url = 'http://localhost:8080/api/dsdgen/dsdgen/upload';
     if (sheetName) {
       url += `?sheet_name=${sheetName}`;
     }
@@ -105,13 +105,14 @@ export default function SeparateBalanceSheetPage() {
         body: formData,
       });
 
-      const responseText = await response.text();
-      console.log('🎀🎀서버 응답:', responseText);
-
       if (!response.ok) {
         throw new Error(`API 요청 실패: ${response.status}`);
       }
+
+      // JSON 응답 파싱
       const data: DsdUploadResponse = await response.json();
+      console.log('🎁🎁서버 응답:', data);
+
       if (sheetName) {
         if (data.sheets && data.sheets[sheetName] && data.sheets[sheetName].length > 0) {
           const tableData = data.sheets[sheetName];
